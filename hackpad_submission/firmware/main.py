@@ -1,40 +1,41 @@
-# You import all the IOs of your board
 import board
-
-# These are imports from the kmk library
 from kmk.kmk_keyboard import KMKKeyboard
 from kmk.scanners.keypad import KeysScanner
 from kmk.keys import KC
 from kmk.modules.macros import Press, Release, Tap, Macros
+from kmk.modules.encoder import EncoderHandler
 
-# This is the main instance of your keyboard
 keyboard = KMKKeyboard()
 
-# Add the macro extension
-macros = Macros()
-keyboard.modules.append(macros)
+# --- 1. ROTARY ENCODER SETUP ---
+encoder_handler = EncoderHandler()
+keyboard.modules.append(encoder_handler)
 
-# Define your pins here!
-# These match the pins you used in KiCad (D0, D1, D2, D3, D6, D7)
-PINS = [board.D0, board.D1, board.D2, board.D3, board.D6, board.D7]
+# ⚠️ SOLDER CHECK: Connect your Encoder's Side Pins to D8 and D9
+# The middle pin of the encoder usually goes to GND.
+encoder_handler.pins = ((board.D8, board.D9, None, False),)
 
-# Tell kmk we are not using a key matrix
+# What the knob does: Volume Up (Right) / Volume Down (Left)
+encoder_handler.map = [ ((KC.VOLU, KC.VOLD),) ]
+
+
+# --- 2. SWITCHES SETUP (Direct Wiring) ---
+# This assumes you wired each switch to its own pin (1 leg to Pin, 1 leg to GND)
+# PINS used: D0, D1, D2, D3, D6, D7
 keyboard.matrix = KeysScanner(
-    pins=PINS,
+    pins=[board.D0, board.D1, board.D2, board.D3, board.D6, board.D7],
     value_when_pressed=False,
 )
 
-# Here you define the buttons corresponding to the pins
-# I added 6 keys here to match your 6 switches.
-# You can change these later!
+# --- 3. KEYMAPPING ---
+# Assigning basic keys. You can change 'KC.A' to whatever you want later!
 keyboard.keymap = [
     [
-     KC.A,    KC.B, 
-     KC.C,    KC.D, 
-     KC.E,    KC.F
+        KC.A,    KC.B, 
+        KC.C,    KC.D, 
+        KC.E,    KC.F,
     ]
 ]
 
-# Start kmk!
 if __name__ == '__main__':
     keyboard.go()
