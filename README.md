@@ -39,6 +39,6 @@ This is a custom 6-key macropad with a rotary encoder designed for the Hack Club
 ![Case Bottom View](case_bottom.png)
 
 Final:-(i messed up 3d printed case while i was trying to customize it irl)
-![Case_View1](/home/dixit/hackpad_submission/final1.png)
+![Case_View1](final1.png)
 
-![Case_View2](/home/dixit/hackpad_submission/final2.png)
+![Case_View2](final2.png)
